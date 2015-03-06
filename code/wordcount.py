@@ -1,8 +1,8 @@
 #WordCount
 import os
 
-path1 = '/Users/baranmcl/Desktop/python_projects/insight/input'
-path2 = '/Users/baranmcl/Desktop/python_projects/insight/output'
+path1 = 'InsightData/wc_input'
+path2 = 'InsightData/wc_output'
 listing = os.listdir(path1)
 
 words = {}
