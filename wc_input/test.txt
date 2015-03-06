@@ -6,3 +6,4 @@ She sells seashells by the seashore.
 Peter Piper Picked A Peck of Pickled Peppers, but
 if peter piper picked a peck of pickled peppers,
 how many pickled peppers did Peter Piper pick?
+will-hyphenated-words-count-individually?
