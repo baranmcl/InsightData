@@ -19,9 +19,11 @@ for infile in listing: #loop through input files
             words[word] = 1
         if word in words:
             words[word] = words[word] + 1
-    for key in words.keys(): #write words and values to output
-        os.chdir(path2)
-        writefile.write("%s\t\t%s\n" %(key , words[key]))
-
     readfile.close()
+
+words = sorted(words.keys()) #sort keys of dictionary into alphabetical order
+
+os.chdir(path2)
+for key in words.keys(): #write words and values to output
+    writefile.write("%s\t\t%s\n" %(key , words[key]))
 writefile.close()
