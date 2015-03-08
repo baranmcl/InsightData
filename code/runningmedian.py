@@ -1,7 +1,6 @@
 #Running Median
 import os
 
-
 if __name__ == '__main__':
     path1 = 'InsightData/input'
     path2 = 'InsightData/output'
@@ -10,6 +9,8 @@ if __name__ == '__main__':
     linesprocessed = 0 #initialize lines processed counter
     MaxHeap = [] #initialize heaps
     MinHeap = []
+    MaxLength = len(MaxHeap)
+    MinLength = len(MinHeap)
     
     os.chdir(path2) #write output file in correct location
     writefile = open("med_result.txt", "w")
@@ -31,14 +32,12 @@ for infile in listing: #loop through each input file
     
     for line in iter(readfile): #loop through each line in input file
         line = line.strip().split()
-        x = len(MaxHeap)
-        y = len(MinHeap)
         
         if linesprocessed >= 2: #rebalance heaps
-            if (x - y) > 1:
+            if (MaxLength - MinLength) > 1:
                 MinHeap.append(max(MaxHeap))
                 MaxHeap.remove(max(MaxHeap))
-            elif (y - x) > 1:
+            elif (MinLength - MaxLength) > 1:
                 MaxHeap.append(min(MinHeap))
                 MinHeap.remove(min(MinHeap))
 
@@ -54,13 +53,22 @@ for infile in listing: #loop through each input file
         elif len(line) < currentmedian:
             MinHeap.append(len(line))
         elif len(line) == currentmedian:
-            if x > y:
+            if MaxLength > MinLength:
                 MinHeap.append(len(line))
             else:
                 MaxHeap.append(len(line))
         linesprocessed = linesprocessed + 1
     readfile.close()
+    
+if linesprocessed >= 2: #rebalance heaps for final median calculation
+    if (MaxLength - MinLength) > 1:
+        MinHeap.append(max(MaxHeap))
+        MaxHeap.remove(max(MaxHeap))
+    elif (MaxLength - MinLength) > 1:
+        MaxHeap.append(min(MinHeap))
+        MinHeap.remove(min(MinHeap))
 
+currentmedian = findmedian(MaxHeap, MinHeap) #calculate final median
 
 writefile.write("The Running Median Words Per Line is %s!" %(currentmedian))
 
