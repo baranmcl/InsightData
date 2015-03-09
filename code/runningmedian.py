@@ -3,8 +3,8 @@ import os
 import heapq
 
 if __name__ == '__main__':
-    path1 = '/Users/baranmcl/Desktop/codes/python_projects/insight/input'
-    path2 = '/Users/baranmcl/Desktop/codes/python_projects/insight/output'
+    path1 = 'InsightData/wc_input'
+    path2 = 'InsightData/wc_output'
     listing = os.listdir(path1)
     
     linesprocessed = 0 #initialize lines processed counter
