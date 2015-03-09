@@ -1,14 +1,15 @@
 #WordCount
 import os
 
-path1 = 'InsightData/wc_input'
-path2 = 'InsightData/wc_output'
-listing = os.listdir(path1)
+if __name__ == '__main__':
+    path1 = 'InsightData/wc_input'
+    path2 = 'InsightData/wc_output'
+    listing = os.listdir(path1)
 
-words = {}
+    words = {} #initialize words dictionary
 
-os.chdir(path2)
-writefile = open("wc_result.txt", "w")
+    os.chdir(path2) #write result txt in correct location
+    writefile = open("wc_result.txt", "w")
 
 for infile in listing: #loop through input files
     os.chdir(path1)
