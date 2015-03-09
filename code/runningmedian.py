@@ -37,7 +37,7 @@ def findmedian():
         return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
 
-for infile in listing: #loop through each input file
+for infile in sorted(listing): #loop through each input file
     os.chdir(path1)
     readfile = open("%s" %(infile), "r")
     
