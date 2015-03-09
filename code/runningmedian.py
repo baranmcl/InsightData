@@ -10,7 +10,8 @@ if __name__ == '__main__':
     linesprocessed = 0 #initialize lines processed counter
     MaxHeap = [] #every key <= to current median
     MinHeap = [] #every key >= to current median
- 
+
+    runningmedian = [] #initialize list of running medians
     
     os.chdir(path2) #write output file in correct location
     writefile = open("med_result.txt", "w")
@@ -29,9 +30,9 @@ def findmedian():
     if len(MaxHeap) + len(MinHeap) == 0:
         return 0
     elif len(MinHeap) > len(MaxHeap):
-        return MinHeap[0]
+        return float(MinHeap[0])
     elif len(MaxHeap) > len(MinHeap):
-        return max(MaxHeap)
+        return float(max(MaxHeap))
     elif len(MinHeap) == len(MaxHeap):
         return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
@@ -42,7 +43,11 @@ for infile in listing: #loop through each input file
     
     for line in iter(readfile): #loop through each line in input file
         line = line.strip().replace("-", " ").split(" ")
+
         currentmedian = findmedian()
+        if currentmedian != 0:
+            runningmedian.append(currentmedian)
+        
         if len(line) < currentmedian:
             heapq.heappush(MaxHeap, len(line))
             RebalanceHeap()
@@ -62,6 +67,9 @@ for infile in listing: #loop through each input file
     readfile.close()
 
 currentmedian = findmedian()
-writefile.write("The running median words per line is %s!" %(currentmedian))
+runningmedian.append(currentmedian)
+
+for medians in runningmedian:
+    writefile.write("%s\n" %(medians))
 
 writefile.close()
