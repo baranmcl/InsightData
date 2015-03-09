@@ -3,8 +3,8 @@ import os
 import heapq
 
 if __name__ == '__main__':
-    path1 = 'InsightData/input'
-    path2 = 'InsightData/output'
+    path1 = '/Users/baranmcl/Desktop/codes/python_projects/insight/input'
+    path2 = '/Users/baranmcl/Desktop/codes/python_projects/insight/output'
     listing = os.listdir(path1)
     
     linesprocessed = 0 #initialize lines processed counter
@@ -45,22 +45,22 @@ for infile in listing: #loop through each input file
     for line in iter(readfile): #loop through each line in input file
         line = line.strip().replace("-", " ").split(" ")
         currentmedian = findmedian()
-            if len(line) < currentmedian:
-                heapq.heappush(MaxHeap, len(line))
-                RebalanceHeap()
-            elif len(line) > currentmedian:
+        if len(line) < currentmedian:
+            heapq.heappush(MaxHeap, len(line))
+            RebalanceHeap()
+        elif len(line) > currentmedian:
+            heapq.heappush(MinHeap, len(line))
+            RebalanceHeap()
+        elif len(line) == currentmedian:
+            if len(MaxHeap) > len(MinHeap):
                 heapq.heappush(MinHeap, len(line))
                 RebalanceHeap()
-            elif len(line) == currentmedian:
-                if len(MaxHeap) > len(MinHeap):
-                    heapq.heappush(MinHeap, len(line))
-                    RebalanceHeap()
-                elif len(MaxHeap) < len(MinHeap):
-                    heapq.heappush(MaxHeap, len(line))
-                    RebalanceHeap()
-                elif len(MaxHeap) == len(MinHeap):
-                    heapq.heappush(MaxHeap, len(line))
-                    RebalanceHeap()
+            elif len(MaxHeap) < len(MinHeap):
+                heapq.heappush(MaxHeap, len(line))
+                RebalanceHeap()
+            elif len(MaxHeap) == len(MinHeap):
+                heapq.heappush(MaxHeap, len(line))
+                RebalanceHeap()
     readfile.close()
 
 currentmedian = findmedian()
