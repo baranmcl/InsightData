@@ -11,7 +11,7 @@ if __name__ == '__main__':
     os.chdir(path2) #write result txt in correct location
     writefile = open("wc_result.txt", "w")
 
-for infile in listing: #loop through input files
+for infile in sorted(listing): #loop through input files
     os.chdir(path1)
     readfile = open("%s" %(infile), "r")
     for word in readfile.read().lower().strip().replace("-", " ").split(): #loop through each word in input files, making all words lowercase and replacing hyphens
