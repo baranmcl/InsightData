@@ -1,6 +1,3 @@
-
-apt-get install python-pandas
-
 chmod a+x ./code/runningmedian.py
 chmod a+x ./code/wordcount.py
 
