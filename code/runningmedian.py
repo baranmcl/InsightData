@@ -2,6 +2,15 @@
 import os
 import heapq
 
+path1 = 'InsightData/wc_input'
+path2 = 'InsightData/wc_output'
+listing = os.listdir(path1)
+
+MaxHeap = [] #every key <= to current median
+MinHeap = [] #every key >= to current median
+    
+runningmedian = [] #initialize list of running medians
+
 def RebalanceHeap():
     if (len(MaxHeap) - len(MinHeap)) > 1:
         heapq.heappush(MinHeap, max(MaxHeap))
@@ -22,35 +31,22 @@ def findmedian():
     elif len(MinHeap) == len(MaxHeap):
         return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
-if __name__ == '__main__':
-    path1 = 'InsightData/wc_input'
-    path2 = 'InsightData/wc_output'
-    listing = os.listdir(path1)
-    
-    linesprocessed = 0 #initialize lines processed counter
-    MaxHeap = [] #every key <= to current median
-    MinHeap = [] #every key >= to current median
-
-    runningmedian = [] #initialize list of running medians
-    
-    os.chdir(path2) #write output file in correct location
-    writefile = open("med_result.txt", "w")
-
-    for infile in sorted(listing): #loop through each input file
+def mainmedian(x):
+    for infile in sorted(x): #loop through each input file
         os.chdir(path1)
         readfile = open("%s" %(infile), "r")
-    
+        
         for line in iter(readfile): #loop through each line in input file
             line = line.strip().replace("-", " ").split(" ")
-
+            
             currentmedian = findmedian()
             if currentmedian != 0:
                 runningmedian.append(currentmedian)
-        
+            
             if len(line) < currentmedian:
                 heapq.heappush(MaxHeap, len(line))
                 RebalanceHeap()
-          elif len(line) > currentmedian:
+            elif len(line) > currentmedian:
                 heapq.heappush(MinHeap, len(line))
                 RebalanceHeap()
             elif len(line) == currentmedian:
@@ -64,11 +60,19 @@ if __name__ == '__main__':
                     heapq.heappush(MaxHeap, len(line))
                     RebalanceHeap()
         readfile.close()
-
+    
     currentmedian = findmedian()
     runningmedian.append(currentmedian)
-
+    
     for medians in runningmedian:
         writefile.write("%s\n" %(medians))
 
     writefile.close()
+
+
+if __name__ == '__main__':
+    
+    os.chdir(path2) #write output file in correct location
+    writefile = open("med_result.txt", "w")
+    
+    mainmedian(listing)
