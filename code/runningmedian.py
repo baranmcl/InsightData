@@ -44,7 +44,7 @@ for infile in listing: #loop through each input file
     
     for line in iter(readfile): #loop through each line in input file
         line = line.strip().replace("-", " ").split(" ")
-            currentmedian = findmedian()
+        currentmedian = findmedian()
             if len(line) < currentmedian:
                 heapq.heappush(MaxHeap, len(line))
                 RebalanceHeap()
