@@ -22,7 +22,7 @@ def RebalanceHeap():
         MaxHeap.pop()
         heapify(MaxHeap)
     elif (len(MinHeap) - len(MaxHeap)) > 1:
-        heapq.heappush(MaxHeap, min(MinHeap)))
+        heapq.heappush(MaxHeap, min(MinHeap))
         min(MinHeap) = MinHeap[-1]
         MinHeap.pop()
         heapq.heapify(MinHeap)
@@ -34,7 +34,7 @@ def findmedian():
         return MinHeap[0]
     elif len(MaxHeap) > len(MinHeap):
         return MaxHeap[0]
-    elif len(MinHeap) == len(MaxHeap)
+    elif len(MinHeap) == len(MaxHeap):
         return ((MaxHeap[0] + MinHeap[0])/ 2.0)
 
 
