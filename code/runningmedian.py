@@ -18,13 +18,11 @@ if __name__ == '__main__':
 def RebalanceHeap():
     if (len(MaxHeap) - len(MinHeap)) > 1:
         heapq.heappush(MinHeap, max(MaxHeap))
-        max(MaxHeap) = MaxHeap[-1]
-        MaxHeap.pop()
+        MaxHeap.remove((max(MaxHeap)))
         heapify(MaxHeap)
     elif (len(MinHeap) - len(MaxHeap)) > 1:
         heapq.heappush(MaxHeap, min(MinHeap))
-        min(MinHeap) = MinHeap[-1]
-        MinHeap.pop()
+        MinHeap.remove((min(MinHeap)))
         heapq.heapify(MinHeap)
 
 def findmedian():
