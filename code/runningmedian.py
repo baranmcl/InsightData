@@ -19,7 +19,7 @@ def RebalanceHeap():
     if (len(MaxHeap) - len(MinHeap)) > 1:
         heapq.heappush(MinHeap, max(MaxHeap))
         MaxHeap.remove((max(MaxHeap)))
-        heapify(MaxHeap)
+        heapq.heapify(MaxHeap)
     elif (len(MinHeap) - len(MaxHeap)) > 1:
         heapq.heappush(MaxHeap, min(MinHeap))
         MinHeap.remove((min(MinHeap)))
@@ -31,9 +31,9 @@ def findmedian():
     elif len(MinHeap) > len(MaxHeap):
         return MinHeap[0]
     elif len(MaxHeap) > len(MinHeap):
-        return MaxHeap[0]
+        return max(MaxHeap)
     elif len(MinHeap) == len(MaxHeap):
-        return ((MaxHeap[0] + MinHeap[0])/ 2.0)
+        return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
 
 for infile in listing: #loop through each input file
