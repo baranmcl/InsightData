@@ -33,17 +33,13 @@ def findmedian():
         return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
 def mainmedian(x):
-    for infile in sorted(x): #loop through each input file
+    for infile in x: #loop through each input file
         os.chdir(path1)
         readfile = open("%s" %(infile), "r")
-        
-        for line in iter(readfile): #loop through each line in input file
-            line = line.strip().replace("-", " ").split(" ")
-            
+        for line in iter(readfile): #loop through each line/tweet in input file
             currentmedian = findmedian()
             if currentmedian != 0:
                 runningmedian.append(currentmedian)
-            
             if len(line) < currentmedian:
                 heapq.heappush(MaxHeap, len(line))
                 RebalanceHeap()
@@ -61,19 +57,14 @@ def mainmedian(x):
                     heapq.heappush(MaxHeap, len(line))
                     RebalanceHeap()
         readfile.close()
-    
     currentmedian = findmedian()
     runningmedian.append(currentmedian)
     
     for medians in runningmedian:
         writefile.write("%s\n" %(medians))
-
     writefile.close()
-
-
-if __name__ == '__main__':
     
+if __name__ == '__main__':
     os.chdir(path2) #write output file in correct location
     writefile = open("ft2.txt", "w")
-    
     mainmedian(listing)
