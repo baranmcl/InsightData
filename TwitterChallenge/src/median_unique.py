@@ -3,8 +3,8 @@
 import os
 import heapq
 
-path1 = 'InsightData/tweet_input'
-path2 = 'InsightData/tweet_output'
+path1 = 'TwitterChallenge/tweet_input'
+path2 = 'TwitterChallenge/tweet_output'
 listing = os.listdir(path1)
 
 MaxHeap = [] #every key <= to current median
