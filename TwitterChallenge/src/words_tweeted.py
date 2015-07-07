@@ -8,7 +8,7 @@ listing = os.listdir(path1)
 words = {}
 
 def wordcount(x):
-    for infile in sorted(x): #loop through input files
+    for infile in x: #loop through input files
         os.chdir(path1)
         readfile = open("%s" %(infile), "r")
         for word in readfile:
