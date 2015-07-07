@@ -1,8 +1,8 @@
 # calculates the total number of times each word has been tweeted, and sorts them by ASCII
 #WordCount
 import os
-path1 = '/Users/baranmcl/Desktop/codes/python_projects/insight/input'
-path2 = '/Users/baranmcl/Desktop/codes/python_projects/insight/output'
+path1 = 'TwitterChallenge/tweet_input'
+path2 = 'TwitterChallenge/tweet_output'
 listing = os.listdir(path1)
 
 words = {}
@@ -25,5 +25,5 @@ def wordcount(x):
 
 if __name__ == '__main__':
     os.chdir(path2)
-    writefile = open("wc_result.txt", "w")
+    writefile = open("ft1.txt", "w")
     wordcount(listing)
