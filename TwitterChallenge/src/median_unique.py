@@ -74,6 +74,6 @@ def mainmedian(x):
 if __name__ == '__main__':
     
     os.chdir(path2) #write output file in correct location
-    writefile = open("med_result.txt", "w")
+    writefile = open("ft2.txt", "w")
     
     mainmedian(listing)
