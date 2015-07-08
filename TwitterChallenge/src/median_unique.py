@@ -33,30 +33,30 @@ def findmedian():
         return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
 def mainmedian(x):
-    for infile in x: #loop through each input file
-        os.chdir(path1)
-        readfile = open("%s" %(infile), "r")
-        for line in iter(readfile): #loop through each line/tweet in input file
-            currentmedian = findmedian()
-            if currentmedian != 0:
-                runningmedian.append(currentmedian)
-            if len(line) < currentmedian:
-                heapq.heappush(MaxHeap, len(line))
-                RebalanceHeap()
-            elif len(line) > currentmedian:
+    os.chdir(path1)
+    readfile = open("tweets.txt", "r")
+    for line in iter(readfile): #loop through each line/tweet in input file
+        currentmedian = findmedian()
+        if currentmedian != 0:
+            runningmedian.append(currentmedian)
+        if len(line) < currentmedian:
+            heapq.heappush(MaxHeap, len(line))
+            RebalanceHeap()
+        elif len(line) > currentmedian:
+            heapq.heappush(MinHeap, len(line))
+            RebalanceHeap()
+        elif len(line) == currentmedian:
+            if len(MaxHeap) > len(MinHeap):
                 heapq.heappush(MinHeap, len(line))
                 RebalanceHeap()
-            elif len(line) == currentmedian:
-                if len(MaxHeap) > len(MinHeap):
-                    heapq.heappush(MinHeap, len(line))
-                    RebalanceHeap()
-                elif len(MaxHeap) < len(MinHeap):
-                    heapq.heappush(MaxHeap, len(line))
-                    RebalanceHeap()
-                elif len(MaxHeap) == len(MinHeap):
-                    heapq.heappush(MaxHeap, len(line))
-                    RebalanceHeap()
-        readfile.close()
+            elif len(MaxHeap) < len(MinHeap):
+                heapq.heappush(MaxHeap, len(line))
+                RebalanceHeap()
+            elif len(MaxHeap) == len(MinHeap):
+                heapq.heappush(MaxHeap, len(line))
+                RebalanceHeap()
+    readfile.close()
+    
     currentmedian = findmedian()
     runningmedian.append(currentmedian)
     
