@@ -17,6 +17,8 @@ def swap_if_greater(pIndex, cIndex, heap):
 
 def sift(pIndex, unsortedLen, heap):
     greaterIndex = lambda x, y: x if heap[x] > heap[y] else y
+    if unsortedLen == 2:
+        swap_if_greater(pIndex, 1, heap)
     while pIndex*2+2 < unsortedLen:
         LeftcIndex = pIndex*2+1
         RightcIndex = pIndex*2+2
@@ -37,6 +39,18 @@ def Add_To_Max_Heap(x):
     MaxHeap = [x] + MaxHeap
     sift(0, len(MaxHeap), MaxHeap)
 
+def RebalanceHeaps():
+    global MaxHeap
+    global MinHeap
+    if (len(MaxHeap) - len(MinHeap)) > 1: #if MaxHeap is longer, add to MinHeap
+        Add_To_Min_Heap(MaxHeap[0])
+        MaxHeap = MaxHeap[1:]
+        sift(0, len(MaxHeap), MaxHeap)
+    elif (len(MinHeap) - len(MaxHeap)) > 1: #if MinHeap is longer, add to MaxHeap
+        Add_To_Max_Heap(MinHeap[0])
+        MinHeap = MinHeap[1:]
+        minsift(0, len(MinHeap), MinHeap)
+
 def findmedian():
     if len(MaxHeap) + len(MinHeap) == 0:
         return "empty"
@@ -45,7 +59,7 @@ def findmedian():
     elif len(MaxHeap) > len(MinHeap):
         return float(MaxHeap[0])
     else:
-        return float((MaxHeap[0] + (MinHeap[0]*-1)/ 2.00))
+        return float((MaxHeap[0] + (MinHeap[0]*-1))/ 2.00)
                      
 def mainmedian():
     os.chdir("..")
@@ -58,19 +72,21 @@ def mainmedian():
             Add_To_Max_Heap(len(words))
         elif len(words) < currentmedian:
             Add_To_Max_Heap(len(words))
+            RebalanceHeaps()
         elif len(words) > currentmedian:
             Add_To_Min_Heap(len(words))
+            RebalanceHeaps()
         elif len(words) == currentmedian:
             if len(MaxHeap) > len(MinHeap):
                 Add_To_Min_Heap(len(words))
+                RebalanceHeaps()
             else:
                 Add_To_Max_Heap(len(words))
-                     
+                RebalanceHeaps()
+        currentmedian = findmedian()
+        runningmedian.append(currentmedian)
     readfile.close()
-    
-    currentmedian = findmedian()
-    runningmedian.append(currentmedian)
-    
+
     for medians in runningmedian:
         writefile.write("%s\n" %(medians))
     writefile.close()
