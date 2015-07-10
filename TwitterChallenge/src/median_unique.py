@@ -28,10 +28,12 @@ def sift(pIndex, unsortedLen, heap):
         pIndex = greater_child_index
 
 def Add_To_Min_Heap(x):
+    global MinHeap
     MinHeap = [x*-1] + MinHeap
     sift(0, len(MinHeap), MinHeap)
 
 def Add_To_Max_Heap(x):
+    global MaxHeap
     MaxHeap = [x] + MaxHeap
     sift(0, len(MaxHeap), MaxHeap)
 
@@ -42,9 +44,9 @@ def findmedian():
         return float(MinHeap[0]*-1)
     elif len(MaxHeap) > len(MinHeap):
         return float(MaxHeap[0])
-    elif len(MinHeap) == len(MaxHeap):
-        return float((MaxHeap[0] + (MinHeap[0]*-1)/ 2.00)
-
+    else:
+        return float((MaxHeap[0] + (MinHeap[0]*-1)/ 2.00))
+                     
 def mainmedian():
     os.chdir("..")
     os.chdir(path1)
@@ -53,7 +55,7 @@ def mainmedian():
         words = line.strip().split()
         currentmedian = findmedian()
         if currentmedian == "empty":
-            runningmedian.append(len(words))
+            Add_To_Max_Heap(len(words))
         elif len(words) < currentmedian:
             Add_To_Max_Heap(len(words))
         elif len(words) > currentmedian:
