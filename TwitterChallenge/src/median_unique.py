@@ -3,9 +3,9 @@
 import os
 import heapq
 
-path1 = 'TwitterChallenge/tweet_input'
-path2 = 'TwitterChallenge/tweet_output'
-listing = os.listdir(path1)
+path1 = 'tweet_input'
+path2 = 'tweet_output'
+InputFileName = "tweets.txt"
 
 MaxHeap = [] #every key <= to current median
 MinHeap = [] #every key >= to current median
@@ -32,28 +32,30 @@ def findmedian():
     elif len(MinHeap) == len(MaxHeap):
         return float((max(MaxHeap) + MinHeap[0])/ 2.0)
 
-def mainmedian(x):
+def mainmedian():
+    os.chdir("..")
     os.chdir(path1)
-    readfile = open("tweets.txt", "r")
-    for line in iter(readfile): #loop through each line/tweet in input file
+    readfile = open(InputFileName, "r")
+    for line in readfile: #loop through each line/tweet in input file
+        words = line.strip().split()
         currentmedian = findmedian()
         if currentmedian != 0:
             runningmedian.append(currentmedian)
-        if len(line) < currentmedian:
-            heapq.heappush(MaxHeap, len(line))
+        if len(words) < currentmedian:
+            heapq.heappush(MaxHeap, len(words))
             RebalanceHeap()
-        elif len(line) > currentmedian:
-            heapq.heappush(MinHeap, len(line))
+        elif len(words) > currentmedian:
+            heapq.heappush(MinHeap, len(words))
             RebalanceHeap()
-        elif len(line) == currentmedian:
+        elif len(words) == currentmedian:
             if len(MaxHeap) > len(MinHeap):
-                heapq.heappush(MinHeap, len(line))
+                heapq.heappush(MinHeap, len(words))
                 RebalanceHeap()
             elif len(MaxHeap) < len(MinHeap):
-                heapq.heappush(MaxHeap, len(line))
+                heapq.heappush(MaxHeap, len(words))
                 RebalanceHeap()
             elif len(MaxHeap) == len(MinHeap):
-                heapq.heappush(MaxHeap, len(line))
+                heapq.heappush(MaxHeap, len(words))
                 RebalanceHeap()
     readfile.close()
     
@@ -65,6 +67,7 @@ def mainmedian(x):
     writefile.close()
     
 if __name__ == '__main__':
+    os.chdir("..")
     os.chdir(path2) #write output file in correct location
     writefile = open("ft2.txt", "w")
-    mainmedian(listing)
+    mainmedian()
