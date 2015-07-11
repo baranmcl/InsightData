@@ -1,40 +1,43 @@
-# calculates the median number of unique words per tweet
-#Running Median
+# Running Median
+# calculates the running median number of unique words per tweet, by organizing tweet numbers into two heaps.
 import os
-
-path1 = 'tweet_input'
-path2 = 'tweet_output'
-InputFileName = "tweets.txt"
+Input_Path = 'tweet_input'
+Output_Path = 'tweet_output'
+Input_File_Name = "tweets.txt"
+Output_File_Name = "ft.2.txt"
 
 MaxHeap = [] #every key <= to current median
 MinHeap = [] #every key >= to current median
+RunningMedian = [] #initialize list of running medians
 
-runningmedian = [] #initialize list of running medians
+def SwapIfGreater(parentIndex, childIndex, heap): #Swaps parent and child indexes in heap if greater
+    if heap[parentIndex] < heap[childIndex]:
+        heap[parentIndex], heap[childIndex] = heap[childIndex], heap[parentIndex]
 
-def swap_if_greater(pIndex, cIndex, heap):
-    if heap[pIndex] < heap[cIndex]:
-        heap[pIndex], heap[cIndex] = heap[cIndex], heap[pIndex]
+def greaterIndex(index1,index2, heap):
+    if heap[index1] > heap[index2]:
+        return index1
+    else: #if index2's value is greater or equal to index1's value, return index2
+        return index2
 
-def sift(pIndex, unsortedLen, heap):
-    greaterIndex = lambda x, y: x if heap[x] > heap[y] else y
+def sift(parentIndex, unsortedLen, heap):
     if unsortedLen == 2:
-        swap_if_greater(pIndex, 1, heap)
-    while pIndex*2+2 < unsortedLen:
-        LeftcIndex = pIndex*2+1
-        RightcIndex = pIndex*2+2
+        SwapIfGreater(parentIndex, 1, heap)
+    
+    while parentIndex*2+2 < unsortedLen:
+        leftChildIndex = parentIndex*2+1
+        rightChildIndex = parentIndex*2+2
 
-        greater_child_index = greaterIndex(LeftcIndex, RightcIndex)
-        
-        swap_if_greater(pIndex, greater_child_index, heap)
+        greaterChildIndex = greaterIndex(leftChildIndex, rightChildIndex, heap)
+        SwapIfGreater(parentIndex, greater_child_index, heap)
+        parentIndex = greaterChildIndex
 
-        pIndex = greater_child_index
-
-def Add_To_Min_Heap(x):
+def AddToMinHeap(x): #storing MinHeap as MaxHeap internally to utilize same sift function
     global MinHeap
     MinHeap = [x*-1] + MinHeap
     sift(0, len(MinHeap), MinHeap)
 
-def Add_To_Max_Heap(x):
+def AddToMaxHeap(x):
     global MaxHeap
     MaxHeap = [x] + MaxHeap
     sift(0, len(MaxHeap), MaxHeap)
@@ -43,56 +46,56 @@ def RebalanceHeaps():
     global MaxHeap
     global MinHeap
     if (len(MaxHeap) - len(MinHeap)) > 1: #if MaxHeap is longer, add to MinHeap
-        Add_To_Min_Heap(MaxHeap[0])
+        AddToMinHeap(MaxHeap[0])
         MaxHeap = MaxHeap[1:]
         sift(0, len(MaxHeap), MaxHeap)
     elif (len(MinHeap) - len(MaxHeap)) > 1: #if MinHeap is longer, add to MaxHeap
-        Add_To_Max_Heap(MinHeap[0])
+        AddToMaxHeap(MinHeap[0])
         MinHeap = MinHeap[1:]
-        minsift(0, len(MinHeap), MinHeap)
+        sift(0, len(MinHeap), MinHeap)
 
-def findmedian():
-    if len(MaxHeap) + len(MinHeap) == 0:
-        return "empty"
+def FindMedian():
+    if (len(MaxHeap) == 0 & len(MinHeap) == 0): #returns an invalid median if Heaps are empty
+        return -1
     elif len(MinHeap) > len(MaxHeap):
         return float(MinHeap[0]*-1)
     elif len(MaxHeap) > len(MinHeap):
         return float(MaxHeap[0])
-    else:
+    else: #even number of elements
         return float((MaxHeap[0] + (MinHeap[0]*-1))/ 2.00)
                      
-def mainmedian():
+def MainMedian():
     os.chdir("..")
-    os.chdir(path1)
+    os.chdir(Input_Path)
     readfile = open(InputFileName, "r")
     for line in readfile: #loop through each line/tweet in input file
         words = line.strip().split()
-        currentmedian = findmedian()
-        if currentmedian == "empty":
-            Add_To_Max_Heap(len(words))
-        elif len(words) < currentmedian:
-            Add_To_Max_Heap(len(words))
+        currentmedian = FindMedian()
+        if currentmedian == -1: #if heaps are empty, add to MaxHeap
+            AddToMaxHeap(len(words))
+        elif len(words) < currentmedian: #if the value is less than the current median
+            AddToMaxHeap(len(words)) #Add to MaxHeap and rebalance
             RebalanceHeaps()
-        elif len(words) > currentmedian:
-            Add_To_Min_Heap(len(words))
+        elif len(words) > currentmedian: #if the value is greater than the current median
+            AddToMinHeap(len(words)) #Add to MinHeap and rebalance
             RebalanceHeaps()
-        elif len(words) == currentmedian:
-            if len(MaxHeap) > len(MinHeap):
-                Add_To_Min_Heap(len(words))
+        elif len(words) == currentmedian: #if the value is equal to the current median
+            if len(MaxHeap) > len(MinHeap): #add to the MinHeap if MaxHeap is greater
+                AddToMinHeap(len(words))
                 RebalanceHeaps()
             else:
-                Add_To_Max_Heap(len(words))
+                AddToMaxHeap(len(words)) #otherwise, add to the MaxHeap
                 RebalanceHeaps()
-        currentmedian = findmedian()
-        runningmedian.append(currentmedian)
+        currentmedian = FindMedian()
+        RunningMedian.append(currentmedian) #add current median to running median list
     readfile.close()
 
-    for medians in runningmedian:
+    for medians in RunningMedian:
         writefile.write("%s\n" %(medians))
     writefile.close()
     
 if __name__ == '__main__':
     os.chdir("..")
-    os.chdir(path2) #write output file in correct location
-    writefile = open("ft2.txt", "w")
-    mainmedian()
+    os.chdir(Output_Path) #write output file in correct location
+    writefile = open(Output_File_Name, "w")
+    MainMedian()

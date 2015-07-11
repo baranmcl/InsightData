@@ -1,17 +1,17 @@
+# Word Count
 # calculates the total number of times each word has been tweeted, and sorts them by ASCII
-#WordCount
 import os
-path1 = 'tweet_input'
-path2 = 'tweet_output'
-InputFileName = "tweets.txt"
-OutputFileName = "ft1.txt"
+Input_Path = 'tweet_input'
+Output_Path = 'tweet_output'
+Input_File_Name = "tweets.txt"
+Output_File_Name = "ft1.txt"
 
-words = {}
+words = {} #initialize hash table of words and counts
 
 def wordcount():
     os.chdir('..')
-    os.chdir(path1)
-    readfile = open(InputFileName, "r")
+    os.chdir(Input_Path)
+    readfile = open(Input_File_Name, "r")
     for tweet in readfile:
         tweet = tweet.strip().split()
         for word in tweet:
@@ -29,6 +29,6 @@ def wordcount():
 
 if __name__ == '__main__':
     os.chdir('..')
-    os.chdir(path2)
-    writefile = open(OutputFileName, "w")
+    os.chdir(Output_Path)
+    writefile = open(Output_File_Name, "w")
     wordcount()
