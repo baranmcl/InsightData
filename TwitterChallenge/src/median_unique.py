@@ -4,7 +4,7 @@ import os
 Input_Path = 'tweet_input'
 Output_Path = 'tweet_output'
 Input_File_Name = "tweets.txt"
-Output_File_Name = "ft.2.txt"
+Output_File_Name = "ft2.txt"
 
 MaxHeap = [] #every key <= to current median
 MinHeap = [] #every key >= to current median
