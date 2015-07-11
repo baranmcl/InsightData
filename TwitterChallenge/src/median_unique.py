@@ -29,7 +29,7 @@ def sift(parentIndex, unsortedLen, heap):
         rightChildIndex = parentIndex*2+2
 
         greaterChildIndex = greaterIndex(leftChildIndex, rightChildIndex, heap)
-        SwapIfGreater(parentIndex, greater_child_index, heap)
+        SwapIfGreater(parentIndex, greaterChildIndex, heap)
         parentIndex = greaterChildIndex
 
 def AddToMinHeap(x): #storing MinHeap as MaxHeap internally to utilize same sift function
@@ -67,7 +67,7 @@ def FindMedian():
 def MainMedian():
     os.chdir("..")
     os.chdir(Input_Path)
-    readfile = open(InputFileName, "r")
+    readfile = open(Input_File_Name, "r")
     for line in readfile: #loop through each line/tweet in input file
         words = line.strip().split()
         currentmedian = FindMedian()
