@@ -22,7 +22,7 @@ def wordcount():
     readfile.close()
 
     os.chdir('..')
-    os.chdir(path2)
+    os.chdir(Output_Path)
     for key in sorted(words): #write words and values to output, sorted
         writefile.write("%s\t\t%s\n" %(key , words[key]))
     writefile.close()
